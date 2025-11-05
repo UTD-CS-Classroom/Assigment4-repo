@@ -1,55 +1,62 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>demo</groupId>
-  <artifactId>coverage-demo</artifactId>
-  <version>1.0.0</version>
+  <groupId>edu.example</groupId>
+  <artifactId>assignment4</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>assignment4</name>
 
   <properties>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
-    <!-- JUnit 4 for Randoop tests -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+      <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.evosuite</groupId>
+      <artifactId>evosuite-standalone-runtime</artifactId>
+      <version>1.0.6</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
+    <!-- Use src/ and test/ as project layout (non-standard) -->
+    <sourceDirectory>${basedir}/src</sourceDirectory>
+    <testSourceDirectory>${basedir}/test</testSourceDirectory>
+
     <plugins>
-      <!-- Run tests -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
-      </plugin>
-
-      <!-- JaCoCo coverage -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.12</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>report</id>
-            <phase>test</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
+        <version>2.22.2</version>
+        <configuration>
+          <includes>
+            <include>**/*RegressionTest.java</include>
+          </includes>
+        </configuration>
       </plugin>
     </plugins>
   </build>
